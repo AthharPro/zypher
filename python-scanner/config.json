@@ -1,0 +1,8 @@
+{
+  "severity_threshold": "LOW",
+  "rules_directory": "rules",
+  "enabled_rules": [],
+  "disabled_rules": [],
+  "report_format": "text",
+  "max_findings": 100
+}

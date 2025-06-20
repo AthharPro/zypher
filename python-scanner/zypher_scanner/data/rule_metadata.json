@@ -1,0 +1,84 @@
+{
+  "rules": [
+    {
+      "id": "CICD-VULN-001",
+      "name": "Insufficient Flow Control Mechanisms",
+      "description": "Checks for proper branch protection, approval processes, and access controls to prevent unauthorized code changes",
+      "severity": "HIGH",
+      "owasp_cicd_top10_category": "CI/CD-SEC-1: Insufficient Flow Control Mechanisms",
+      "remediation": "Implement proper branch protection rules, require code reviews, and enforce separation of duties"
+    },
+    {
+      "id": "CICD-VULN-002",
+      "name": "Inadequate Identity and Access Management",
+      "description": "Detects excessive permissions, overly broad access, and lack of least privilege principle",
+      "severity": "CRITICAL",
+      "owasp_cicd_top10_category": "CI/CD-SEC-2: Inadequate Identity and Access Management",
+      "remediation": "Implement least privilege principle, use temporary credentials, and set proper IAM controls"
+    },
+    {
+      "id": "CICD-VULN-003",
+      "name": "Dependency Chain Abuse",
+      "description": "Identifies unverified dependencies, lack of lockfiles, and vulnerable package usage",
+      "severity": "HIGH",
+      "owasp_cicd_top10_category": "CI/CD-SEC-3: Dependency Chain Abuse",
+      "remediation": "Use dependency lockfiles, verify package integrity with checksums, and scan dependencies for vulnerabilities"
+    },
+    {
+      "id": "CICD-VULN-004",
+      "name": "Poisoned Pipeline Execution",
+      "description": "Checks for command injection vulnerabilities in pipeline scripts and unsanitized inputs",
+      "severity": "CRITICAL",
+      "owasp_cicd_top10_category": "CI/CD-SEC-4: Poisoned Pipeline Execution",
+      "remediation": "Sanitize inputs, avoid using eval() or similar functions, and validate all user-supplied data"
+    },
+    {
+      "id": "CICD-VULN-005",
+      "name": "Insufficient PBAC (Pipeline-Based Access Controls)",
+      "description": "Detects lack of proper access controls within pipeline stages and job separation",
+      "severity": "MEDIUM",
+      "owasp_cicd_top10_category": "CI/CD-SEC-5: Insufficient PBAC (Pipeline-Based Access Controls)",
+      "remediation": "Implement proper access controls between pipeline stages and separate sensitive operations"
+    },
+    {
+      "id": "CICD-VULN-006",
+      "name": "Insufficient Credential Hygiene",
+      "description": "Identifies hardcoded credentials, improperly stored secrets, and insecure credential handling",
+      "severity": "CRITICAL",
+      "owasp_cicd_top10_category": "CI/CD-SEC-6: Insufficient Credential Hygiene",
+      "remediation": "Use secret management services, avoid hardcoded credentials, and rotate secrets regularly"
+    },
+    {
+      "id": "CICD-VULN-007",
+      "name": "Insecure System Configuration",
+      "description": "Detects insecure defaults, lack of hardening, and misconfigured CI/CD systems",
+      "severity": "HIGH",
+      "owasp_cicd_top10_category": "CI/CD-SEC-7: Insecure System Configuration",
+      "remediation": "Follow security hardening guidelines, disable unnecessary services, and use secure defaults"
+    },
+    {
+      "id": "CICD-VULN-008",
+      "name": "Ungoverned Usage of 3rd Party Services",
+      "description": "Checks for unverified third-party actions, services, and integrations",
+      "severity": "MEDIUM",
+      "owasp_cicd_top10_category": "CI/CD-SEC-8: Ungoverned Usage of 3rd Party Services",
+      "remediation": "Verify third-party services, pin versions, and limit permissions granted to external services"
+    },
+    {
+      "id": "CICD-VULN-009",
+      "name": "Improper Artifact Integrity Validation",
+      "description": "Identifies lack of signing, verification, and integrity checks for artifacts and images",
+      "severity": "HIGH",
+      "owasp_cicd_top10_category": "CI/CD-SEC-9: Improper Artifact Integrity Validation",
+      "remediation": "Implement artifact signing, verify signatures before deployment, and generate SBOMs"
+    },
+    {
+      "id": "CICD-VULN-010",
+      "name": "Insufficient Logging and Visibility",
+      "description": "Detects inadequate logging, monitoring, and audit trails in CI/CD pipelines",
+      "severity": "MEDIUM",
+      "owasp_cicd_top10_category": "CI/CD-SEC-10: Insufficient Logging and Visibility",
+      "remediation": "Implement comprehensive logging, set up alerts for suspicious activities, and maintain audit trails"
+    }
+  ]
+}
