@@ -1,0 +1,68 @@
+name: Pipeline with Insecure System Configuration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Missing concurrency settings
+# Missing global timeout-minutes setting
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Using latest tag instead of pinned version
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14' # Using outdated Node.js version
+      
+      # Insecure script execution
+      - name: Setup environment
+        run: |
+          curl -s http://example.com/setup.sh | bash
+          wget -qO- https://raw.githubusercontent.com/example/scripts/main/config.sh | sudo bash
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Run tests
+        run: npm test
+        # Missing continue-on-error for tests
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-18.04 # Using an outdated runner
+    # Missing timeout-minutes
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      
+      # Insecure temporary file usage
+      - name: Deploy application
+        run: |
+          curl -s https://get.example.com/deploy.sh > /tmp/deploy.sh
+          chmod +x /tmp/deploy.sh
+          /tmp/deploy.sh
+      
+      # Execution without timeout
+      - name: Long-running operation
+        run: |
+          while true; do
+            echo "Working..."
+            sleep 60
+          done
