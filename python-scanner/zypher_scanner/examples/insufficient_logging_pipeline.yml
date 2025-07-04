@@ -1,0 +1,60 @@
+name: Insufficient Logging and Visibility Example Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # No logging or artifact preservation of build outputs
+      - name: Build application
+        run: |
+          npm ci
+          npm run build
+      
+      # Test without preserving results
+      - name: Run tests
+        run: npm test
+  
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # No error handling configured
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Deployment without any visibility or notifications
+      - name: Deploy to staging
+        run: |
+          echo "Deploying to staging environment"
+          npm run deploy:staging
+      
+      # No status reporting or deployment verification
+  
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    # No approval process or audit trail
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Critical deployment without notifications, logging, or approval tracking
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production environment"
+          npm run deploy:prod
+      
+      # Missing post-deployment verification
+      
+      # Missing deployment notification step
+  
+  # Missing overall pipeline status notification
