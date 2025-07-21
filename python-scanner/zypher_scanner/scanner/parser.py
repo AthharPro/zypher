@@ -3,6 +3,7 @@ import yaml
 from typing import Dict, List, Tuple, Any
 
 
+    
 class PipelineParser:
     """
     Parser for CI/CD pipeline configuration files.
@@ -10,6 +11,20 @@ class PipelineParser:
     
     def __init__(self):
         self.supported_formats = ['.yml', '.yaml']
+    
+    def _fix_on_key(self, data):
+        if isinstance(data, dict):
+            new_data = {}
+            for k, v in data.items():
+                if k is True:
+                    new_data['on'] = self._fix_on_key(v)
+                else:
+                    new_data[k] = self._fix_on_key(v)
+            return new_data
+        elif isinstance(data, list):
+            return [self._fix_on_key(item) for item in data]
+        else:
+            return data
         
     def validate_file(self, file_path: str) -> bool:
         """
@@ -47,14 +62,13 @@ class PipelineParser:
             # Read the raw file content
             with open(file_path, 'r', encoding='utf-8') as f:
                 file_lines = f.readlines()
-                
             # Parse the YAML content
             with open(file_path, 'r', encoding='utf-8') as f:
                 pipeline_data = yaml.safe_load(f)
-                
             if pipeline_data is None:
                 pipeline_data = {}
-                
+            # Fix 'on' key if PyYAML parsed it as True
+            pipeline_data = self._fix_on_key(pipeline_data)
             return pipeline_data, file_lines
                 
         except yaml.YAMLError as e:
