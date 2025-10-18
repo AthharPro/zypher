@@ -1,9 +1,6 @@
 # zypher
 
-Web-Based CI/CD vulnerability scanner
-
-1st -> Pyhton <br>
-2nd -> Next.js + Fast API
+Command-Line CI/CD vulnerability scanner
 
 ### Folder structure of python-scanner
 

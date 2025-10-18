@@ -91,7 +91,7 @@ class RuleInsufficientFlowControl(BaseRule):
         # Check for workflows with direct push access to main or master branch
         if "on" in pipeline_data:
             events = pipeline_data["on"]
-            print("\nInside the on")
+            # print("\nInside the on")
             if isinstance(events, dict) and "push" in events:
                 push_config = events["push"]
                 

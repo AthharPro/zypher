@@ -47,7 +47,7 @@ class RuleInsufficientFlowControl(BaseRule):
     # --- GitHub Actions ---
     def _scan_github_workflow(self, pipeline_data, file_lines, file_path):
         findings = []
-        print("Pipeline Data: ", pipeline_data)  # Debugging line to check pipeline data
+       
         # 1. Direct push to main/master
         if "on" in pipeline_data:
             events = pipeline_data["on"]
@@ -58,7 +58,7 @@ class RuleInsufficientFlowControl(BaseRule):
                     if isinstance(branches, list) and any(b in ["main", "master"] for b in branches):
                         line_number = self._find_line_with_content(file_lines, "push:", 0)
                         if line_number >= 0:
-                            findings.append(Finding(
+                           findings.append(Finding(
                                 rule_id=self.METADATA["rule_id"],
                                 severity=self.get_severity(),
                                 description="Direct push to main/master branch without requiring pull requests",
@@ -67,6 +67,21 @@ class RuleInsufficientFlowControl(BaseRule):
                                 snippet=file_lines[line_number].strip(),
                                 recommendation="Configure branch protection rules requiring pull request reviews and remove direct push trigger"
                             ))
+               # If push allows any branches or has no branch filtering
+                if push_config is None or (isinstance(push_config, dict) and "branches" not in push_config):
+                    line_number = self._find_line_with_content(file_lines, "push", 0)
+                    if line_number >= 0:
+                        findings.append(Finding(
+                            rule_id=self.rule_id,
+                            severity=self.get_severity(),
+                            description="Workflow can be triggered by pushes to any branch without restrictions",
+                            line_number=line_number + 1,
+                            filepath=file_path,
+                            snippet=file_lines[line_number].strip(),
+                            recommendation="Add branch filtering to the push trigger to limit execution to specific branches only"
+                        ))
+                  
+            
             # 2. PR trigger without branch filtering
             if isinstance(events, dict) and "pull_request" in events:
                 pr_config = events["pull_request"]

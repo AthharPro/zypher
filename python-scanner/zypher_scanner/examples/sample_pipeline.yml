@@ -2,9 +2,9 @@ name: Sample CI/CD Pipeline
 on:
   push:
     branches: [main]
+  
 
 env:
-  # Hardcoded credentials (vulnerability)
   DATABASE_PASSWORD: "supersecretpassword123"
   API_KEY: "AKIAIOSFODNN7EXAMPLE"
   DOCKER_TAG: latest
